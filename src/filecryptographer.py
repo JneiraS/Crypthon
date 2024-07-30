@@ -8,7 +8,7 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from src.hash import SecureHasher
 
 
-class Encrypt:
+class FileCryptographer:
     def __init__(self, password, input_filename, output_filename):
         self.password: str = SecureHasher(password).create_sha256_hash()
         self.input_filename: str = input_filename
