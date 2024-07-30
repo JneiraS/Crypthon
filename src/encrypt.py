@@ -7,54 +7,55 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
 from src.hash import SecureHasher
 
+
 class Encrypt:
     def __init__(self, password, input_filename, output_filename):
         self.password: str = SecureHasher(password).create_sha256_hash()
         self.input_filename: str = input_filename
         self.output_filename: str = output_filename
 
-    def encrypt_file(self):
-        # Générer une clé de chiffrement à partir du mot de passe
+    def encrypt_file(self) -> None:
+        """
+        Chiffre le fichier spécifié par self.input_filename et écrit le fichier chiffré dans
+        self.output_filename.
+        Ce processus utilise AESGCM pour le chiffrement et génère un sel et un nonce pour chaque opération
+        de chiffrement afin d'assurer l'unicité des données chiffrées.
+        """
         salt = os.urandom(16)
-
-        key = self.generate_encryption_key(salt)
-
-        # Choisir un nonce pour AES-GCM
         nonce = os.urandom(12)
+        key = self.generate_encryption_key(salt)
+        encryption_object = AESGCM(key)
 
-        # Créer l'objet de chiffrement
-        aesgcm = AESGCM(key)
-
-        # Ouvrir le fichier en mode binaire et lire son contenu
         with open(self.input_filename, 'rb') as f_in:
             data = f_in.read()
 
-        # Chiffrer les données
-        encrypted_data = aesgcm.encrypt(nonce, data, None)
+        encrypted_data = encryption_object.encrypt(nonce, data, None)
 
-        # Écrire le sel, le nonce et les données chiffrées dans le fichier de sortie
         with open(self.output_filename, 'wb') as f_out:
             f_out.write(salt)
             f_out.write(nonce)
             f_out.write(encrypted_data)
 
-    def decrypt_file(self):
-        # Ouvre le fichier chiffré et lire le sel, le nonce et les données chiffrées
+    def decrypt_file(self) -> None:
+        """
+        Déchiffre le fichier spécifié par self.input_filename et écrit le fichier déchiffré dans
+        self.output_filename.
+        Ce processus utilise AESGCM pour le déchiffrement et nécessite le sel et le nonce stockés dans le
+        fichier d'origine pour reconstituer la clé de chiffrement.
+
+
+        """
         with open(self.input_filename, 'rb') as f_in:
             salt = f_in.read(16)
             nonce = f_in.read(12)
             encrypted_data = f_in.read()
 
-        # Reconstituer la clé de chiffrement à partir du mot de passe et du sel
         key = self.generate_encryption_key(salt)
 
-        # Créer l'objet de déchiffrement
-        aesgcm = AESGCM(key)
+        encryption_object = AESGCM(key)
 
-        # Décrypter les données
-        decrypted_data = aesgcm.decrypt(nonce, encrypted_data, None)
+        decrypted_data = encryption_object.decrypt(nonce, encrypted_data, None)
 
-        # Écrire les données déchiffrées dans le fichier de sortie
         with open(self.output_filename, 'wb') as f_out:
             f_out.write(decrypted_data)
 
