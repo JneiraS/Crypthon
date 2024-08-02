@@ -5,7 +5,7 @@ import hashlib
 class SecureHasher:
 
     def __init__(self, password: str):
-        self._password = input_user_pw()
+        self._password = prompt_for_password()
 
     def __setattr__(self, key, value):
         if key == '_password':
@@ -32,5 +32,8 @@ class SecureHasher:
         return hashed_data
 
 
-def input_user_pw():
+def prompt_for_password() -> str:
+    """
+    Prompts the user to enter a password securely without echoing the input back to the console.
+    """
     return getpass.getpass()

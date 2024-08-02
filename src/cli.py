@@ -4,7 +4,11 @@ import sys
 from src.filecryptographer import *
 
 
-def print_help():
+def print_help() -> None:
+    """
+    Prints a help message to the standard output, detailing the usage of the script and the available
+    command-line options.
+    """
     print("Usage: script.py [options]")
     print("Options:")
     print("  -h, --help            Show this help message and exit.")
@@ -14,7 +18,16 @@ def print_help():
     print("  -o, --output=FILE      Specify an output file.")
 
 
-def process_command_line_arguments():
+def process_command_line_arguments() -> None:
+    """
+    Parses command-line arguments and processes a file accordingly.
+
+    This function parses command-line options to extract parameters such as the operation mode (encryption
+    or decryption).
+    password, input file path, and output file path. Based on these parameters, it creates an instance of
+    FileCryptographer and performs the specified operation on the input file, saving the result to the
+    output file.
+    """
     password = None
     input_file = None
     output_file = None
