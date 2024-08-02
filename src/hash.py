@@ -1,10 +1,11 @@
+import getpass
 import hashlib
 
 
 class SecureHasher:
 
     def __init__(self, password: str):
-        self._password = password
+        self._password = input_user_pw()
 
     def __setattr__(self, key, value):
         if key == '_password':
@@ -29,3 +30,7 @@ class SecureHasher:
         hashed_data = hashlib.sha256(encoded_data).hexdigest()
         del self._password
         return hashed_data
+
+
+def input_user_pw():
+    return getpass.getpass()
