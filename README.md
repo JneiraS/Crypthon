@@ -34,5 +34,3 @@ Contributions are welcome! If you wish to contribute to Crypthon, please follow 
 License
 
 Crypthon is distributed under the MIT license. See LICENSE for more information.
-
-This README provides a solid foundation for your Crypthon project. You can extend or modify it according to the specific needs of your project, such as adding sections on unit testing, technical documentation, or any other significant feature.
