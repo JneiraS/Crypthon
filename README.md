@@ -21,7 +21,7 @@ Crypthon provides a simple command line interface. Here's how you can encrypt or
 python cryothon.py -m <enc|dec> -p <your_password> -i <path_to_input_file> -o <path_to_output_file>
 ```
 
-Replace <encrypt|decrypt> with the desired action (encrypt for encryption, decrypt for decryption), <your_password> with your secure password, and the paths to the input and output files according to your needs.
+Replace <enc|dec> with the desired action (enc for encryption, dec for decryption), <your_password> with your secure password, and the paths to the input and output files according to your needs.
 Contributing
 
 Contributions are welcome! If you wish to contribute to Crypthon, please follow these steps:
